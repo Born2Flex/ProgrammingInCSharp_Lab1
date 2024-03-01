@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using KMA.ProgrammingInCSharp.ViewModels;
 
 namespace KMA.ProgrammingInCSharp
 {

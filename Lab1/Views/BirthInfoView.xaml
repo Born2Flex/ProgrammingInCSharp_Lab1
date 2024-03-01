@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="KMA.ProgrammingInCSharp.Views.BirthInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:KMA.ProgrammingInCSharp.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="330" d:DesignWidth="330">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Select your birthday:" VerticalAlignment="Center" HorizontalAlignment="Left"
+               Margin="0,0,10,2" />
+        <DatePicker Grid.Row="1" SelectedDate="{Binding BirthdayDate}" Focusable="False" Margin="3,0,10,10" />
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,6">
+            <Label Content="Age:" />
+            <TextBlock Text="{Binding Age}" VerticalAlignment="Center" Margin="5,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,6">
+            <Label Content="Western Zodiac Sign:" />
+            <TextBlock Text="{Binding WesternZodiacSign}" VerticalAlignment="Center" Margin="5,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,6">
+            <Label Content="Chinese Zodiac Sign:" />
+            <TextBlock Text="{Binding ChineseZodiacSign}" VerticalAlignment="Center" Margin="5,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <Button Content="Calculate" HorizontalAlignment="Center" Width="110" Height="30" Margin="7, 10"
+                    Command="{Binding CalculateCommand}" />
+            <Button Content="Exit" HorizontalAlignment="Center" Width="110" Height="30" Margin="7, 10"
+                    Command="{Binding ExitCommand}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
