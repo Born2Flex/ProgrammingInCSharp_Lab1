@@ -18,7 +18,7 @@
 
         <Label Grid.Row="0" Content="Select your birthday:" VerticalAlignment="Center" HorizontalAlignment="Left"
                Margin="0,0,10,2" />
-        <DatePicker Grid.Row="1" SelectedDate="{Binding BirthdayDate}" Focusable="False" Margin="3,0,10,10" />
+        <DatePicker Grid.Row="1" SelectedDate="{Binding BirthdayDate}" Focusable="False" Margin="3,0,10,10" Foreground="Aqua"/>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,6">
             <Label Content="Age:" />
