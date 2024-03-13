@@ -11,10 +11,22 @@ public class ResultViewModel: INavigatable<BaseNavigationTypes>, INotifyProperty
 
     private RelayCommand<object> _backCommand;
     private Action _gotoInput;
+    
+    private string _firstName = "Name";
 
     #endregion
 
     #region Properties
+    
+    public string FirstName
+    {
+        get { return _firstName; }
+        set
+        {
+            _firstName = value;
+            OnPropertyChanged(nameof(FirstName));
+        }
+    }
 
     public RelayCommand<object> GoBackCommand
     {

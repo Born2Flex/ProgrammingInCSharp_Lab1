@@ -20,14 +20,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <controls:TextBlockWithCaption Grid.Row="0" Caption="First Name:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="1" Caption="Last Name:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="2" Caption="Email:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="3" Caption="Birth Date:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="4" Caption="Is adult:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="5" Caption="Sun sign:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="6" Caption="Chinese sign:" ></controls:TextBlockWithCaption>
-        <controls:TextBlockWithCaption Grid.Row="7" Caption="Today is birthday:" ></controls:TextBlockWithCaption>
-        <Button Grid.Row="8" HorizontalAlignment="Center" Width="200" VerticalAlignment="Center" Height="25" Margin="5, 10, 5, 15" Content="Back" Command ="{Binding GoBackCommand}"/>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="0" Caption="First Name:" Text="{Binding FirstName}"></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="1" Caption="Last Name:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="2" Caption="Email:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="3" Caption="Birth Date:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="4" Caption="Is adult:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="5" Caption="Sun sign:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="6" Caption="Chinese sign:" ></controls:HorizontalTextBlockWithCaption>
+        <controls:HorizontalTextBlockWithCaption Grid.Row="7" Caption="Today is birthday:" ></controls:HorizontalTextBlockWithCaption>
+        <Button Grid.Row="8" HorizontalAlignment="Center" Width="100" VerticalAlignment="Center" Height="25" Margin="5, 10, 5, 15" Content="Back" Command ="{Binding GoBackCommand}"/>
     </Grid>
 </UserControl>

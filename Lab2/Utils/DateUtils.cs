@@ -4,6 +4,7 @@ namespace KMA.ProgrammingInCSharp.Utils;
 
 public static class DateUtils
 {
+    private static readonly int MaxAge = 135;
     private static readonly string[] ChineseSigns =
         { "Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig" };
 
@@ -16,6 +17,11 @@ public static class DateUtils
     public static bool TodayIsBirthday(DateTime date)
     {
         return date.Month == DateTime.Today.Month && date.Day == DateTime.Today.Day;
+    }
+    
+    public static bool IsValidBirthdayDate(DateTime date)
+    {
+        return DateUtils.YearsDiff(date, DateTime.Today) <= MaxAge && date.CompareTo(DateTime.Now) < 0;
     }
 
     public static string GetChineseZodiacSign(DateTime birthDate)

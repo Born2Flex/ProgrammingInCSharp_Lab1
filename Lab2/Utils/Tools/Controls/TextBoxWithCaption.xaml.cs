@@ -31,7 +31,7 @@ namespace KMA.ProgrammingInCSharp.Utils.Tools.Controls
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register
         (
-            "Text",
+            nameof(Text),
             typeof(string),
             typeof(TextBoxWithCaption),
             new PropertyMetadata(null)

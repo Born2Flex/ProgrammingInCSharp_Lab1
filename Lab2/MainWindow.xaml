@@ -9,7 +9,7 @@
         Title="MainWindow" Height="310" Width="350" SizeToContent="Height" Content="{Binding CurrentViewModel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
         <Window.Resources>
                 <DataTemplate DataType="{x:Type TypeName=viewModels:InputViewModel}">
-                        <views:PersonInputView></views:PersonInputView>
+                        <views:InputView></views:InputView>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type TypeName=viewModels:ResultViewModel}">
                         <views:ResultView></views:ResultView>

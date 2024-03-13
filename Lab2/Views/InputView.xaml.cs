@@ -5,9 +5,9 @@ using KMA.ProgrammingInCSharp.ViewModels;
 
 namespace KMA.ProgrammingInCSharp.Views;
 
-public partial class PersonInputView : UserControl
+public partial class InputView : UserControl
 {
-    public PersonInputView()
+    public InputView()
     {
         InitializeComponent();
     }
