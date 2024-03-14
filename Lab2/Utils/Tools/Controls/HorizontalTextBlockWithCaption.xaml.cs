@@ -1,44 +1,45 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace KMA.ProgrammingInCSharp.Utils.Tools.Controls;
-
-public partial class HorizontalTextBlockWithCaption : UserControl
+namespace KMA.ProgrammingInCSharp.Utils.Tools.Controls
 {
-    public string Caption
+    public partial class HorizontalTextBlockWithCaption : UserControl
     {
-        get
+        public string Caption
         {
-            return TbCaption.Text;
+            get
+            {
+                return TbCaption.Text;
+            }
+            set
+            {
+                TbCaption.Text = value;
+            }
         }
-        set
-        {
-            TbCaption.Text = value;
-        }
-    }
     
-    public string Text
-    {
-        get
+        public string Text
         {
-            return (string)GetValue(TextProperty);
+            get
+            {
+                return (string)GetValue(TextProperty);
+            }
+            set
+            {
+                SetValue(TextProperty, value);
+            }
         }
-        set
+    
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register
+        (
+            nameof(Text),
+            typeof(string),
+            typeof(HorizontalTextBlockWithCaption),
+            new PropertyMetadata(null)
+        );
+    
+        public HorizontalTextBlockWithCaption()
         {
-            SetValue(TextProperty, value);
+            InitializeComponent();
         }
-    }
-    
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register
-    (
-        nameof(Text),
-        typeof(string),
-        typeof(HorizontalTextBlockWithCaption),
-        new PropertyMetadata(null)
-    );
-    
-    public HorizontalTextBlockWithCaption()
-    {
-        InitializeComponent();
     }
 }

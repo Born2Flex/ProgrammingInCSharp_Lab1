@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KMA.ProgrammingInCSharp.Views"
              xmlns:controls="clr-namespace:KMA.ProgrammingInCSharp.Utils.Tools.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" MinWidth="300" IsEnabled="{Binding IsEnabled}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -25,9 +25,7 @@
         <controls:TextBoxWithCaption Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Caption="First Name" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></controls:TextBoxWithCaption>
         <controls:TextBoxWithCaption Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Caption="Last Name" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></controls:TextBoxWithCaption>
         <controls:TextBoxWithCaption Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Caption="Email" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></controls:TextBoxWithCaption>
-        <controls:DatePickerWithCaption Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Caption="Birth Date" PickedDate="{Binding BirthdayDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:DatePickerWithCaption>
-        <!-- <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox> -->
-        
+        <controls:DatePickerWithCaption Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Caption="Birth Date" PickedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:DatePickerWithCaption>
         
         <Button Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5, 20, 5, 15" Content="Exit" Command ="{Binding ExitCommand}"/>
         <Button Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5, 20, 5, 15" Content="Proceed" Command ="{Binding ProceedCommand}"/>

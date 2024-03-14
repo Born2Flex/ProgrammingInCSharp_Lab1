@@ -3,12 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using KMA.ProgrammingInCSharp.ViewModels;
 
-namespace KMA.ProgrammingInCSharp.Views;
-
-public partial class InputView : UserControl
+namespace KMA.ProgrammingInCSharp.Views
 {
-    public InputView()
+    public partial class InputView : UserControl
     {
-        InitializeComponent();
+        public InputView()
+        {
+            InitializeComponent();
+        }
     }
 }

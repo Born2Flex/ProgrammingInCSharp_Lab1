@@ -2,12 +2,13 @@
 using System.Windows.Controls;
 using KMA.ProgrammingInCSharp.ViewModels;
 
-namespace KMA.ProgrammingInCSharp.Views;
-
-public partial class ResultView : UserControl
+namespace KMA.ProgrammingInCSharp.Views
 {
-    public ResultView()
+    public partial class ResultView : UserControl
     {
-        InitializeComponent();
+        public ResultView()
+        {
+            InitializeComponent();
+        }
     }
 }

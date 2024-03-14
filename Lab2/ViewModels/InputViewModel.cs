@@ -1,146 +1,156 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using KMA.ProgrammingInCSharp.Models;
 using KMA.ProgrammingInCSharp.Navigation;
+using KMA.ProgrammingInCSharp.services;
 using KMA.ProgrammingInCSharp.Utils;
 using KMA.ProgrammingInCSharp.Utils.Tools;
 
-namespace KMA.ProgrammingInCSharp.ViewModels;
-
-public class InputViewModel : INavigatable<BaseNavigationTypes>, INotifyPropertyChanged
+namespace KMA.ProgrammingInCSharp.ViewModels
 {
-    #region Fields
+    class InputViewModel : INavigatable<BaseNavigationTypes>, INotifyPropertyChanged
+    {
+        #region Fields
     
-    private RelayCommand<object> _exitCommand;
-    private RelayCommand<object> _proceedCommand;
-    private Action _gotoResults;
+        private RelayCommand<object> _exitCommand;
+        private RelayCommand<object> _proceedCommand;
+        private Action _gotoResults;
     
-    private string _firstName;
-    private string _lastName;
-    private string _email;
-    private DateTime _birthdayDate = DateTime.MinValue;
+        private string _firstName;
+        private string _lastName;
+        private string _email;
+        private DateTime _birthDate = DateTime.Today;
     
-    #endregion
+        private bool _isEnabled = true;
 
-    #region Properties
+        #endregion
 
-    public RelayCommand<object> ExitCommand
-    {
-        get { return _exitCommand ??= new RelayCommand<object>(_ => Environment.Exit(0)); }
-    }
-    
-    public RelayCommand<object> ProceedCommand
-    {
-        get { return _proceedCommand ??= new RelayCommand<object>(_ => ProceedInput(), _ => CanExecute()); }
-    }
-    
-    private void ProceedInput()
-    {
-        if (DateUtils.IsValidBirthdayDate(BirthdayDate))
+        #region Properties
+
+        public string FirstName
         {
-            // SetBirthInfo(DateUtils.YearsDiff(BirthdayDate, DateTime.Today),
-            //     DateUtils.GetSunSign(BirthdayDate),
-            //     DateUtils.GetChineseZodiacSign(BirthdayDate));
-            if (DateUtils.TodayIsBirthday(BirthdayDate))
+            get { return _firstName; }
+            set
             {
-                ShowBirthdayMessage();
+                _firstName = value;
+                OnPropertyChanged(nameof(FirstName));
             }
         }
-        else
+    
+        public string LastName
         {
-           // SetBirthInfo(null, String.Empty, String.Empty);
-            ShowInvalidDateMessage();
+            get { return _lastName; }
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged(nameof(LastName));
+            }
         }
-        _gotoResults.Invoke();
-    }
-
-    public string FirstName
-    {
-        get { return _firstName; }
-        set
+    
+        public string Email
         {
-            _firstName = value;
-            OnPropertyChanged(nameof(FirstName));
+            get { return _email; }
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
         }
-    }
     
-    public string LastName
-    {
-        get { return _lastName; }
-        set
+        public DateTime BirthDate
         {
-            _lastName = value;
-            OnPropertyChanged(nameof(LastName));
+            get { return _birthDate; }
+            set
+            {
+                _birthDate = value;
+                OnPropertyChanged(nameof(BirthDate));
+            }
         }
-    }
     
-    public string Email
-    {
-        get { return _email; }
-        set
+        public bool IsEnabled
         {
-            _email = value;
-            OnPropertyChanged(nameof(Email));
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
         }
-    }
     
-    public DateTime BirthdayDate
-    {
-        get { return _birthdayDate; }
-        set
+        public RelayCommand<object> ExitCommand
         {
-            _birthdayDate = value;
-            OnPropertyChanged(nameof(BirthdayDate));
+            get { return _exitCommand ??= new RelayCommand<object>(_ => Environment.Exit(0)); }
         }
-    }
     
-    #endregion
+        public RelayCommand<object> ProceedCommand
+        {
+            get { return _proceedCommand ??= new RelayCommand<object>(_ => ProceedInput(), _ => CanExecute()); }
+        }
     
-    public InputViewModel(Action gotoResults)
-    {
-        _gotoResults = gotoResults;
-    }
+        #endregion
     
-    private void ShowBirthdayMessage()
-    {
-        MessageBox.Show("Happy Birthday! 🎉🎉🎉",
-            "Congratulations",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
-    }
+        public InputViewModel(Action gotoResults)
+        {
+            _gotoResults = gotoResults;
+        }
+    
+        private async void ProceedInput()
+        {
+            if (DateUtils.IsValidBirthdayDate(BirthDate))
+            {
+                IsEnabled = false;
+                await Task.Run(() =>
+                {
+                    PersonService.Person = new Person(FirstName, LastName, Email, BirthDate);
+                    if (DateUtils.TodayIsBirthday(BirthDate))
+                    {
+                        ShowBirthdayMessage();
+                    }
+                    _gotoResults.Invoke();
+                }); 
+                IsEnabled = true;
+            }
+            else
+            {
+                ShowInvalidDateMessage();
+            }
+        }
+    
+        private void ShowBirthdayMessage()
+        {
+            MessageBox.Show("Happy Birthday! 🎉🎉🎉",
+                "Congratulations",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
 
-    private void ShowInvalidDateMessage()
-    {
-        MessageBox.Show(BirthdayDate > DateTime.Today
-                ? "You can't be born in future! Please enter a valid birth date."
-                : "Age could not be more than 135 years!", "Incorrect Date",
-            MessageBoxButton.OK,
-            MessageBoxImage.Warning);
-    }
+        private void ShowInvalidDateMessage()
+        {
+            MessageBox.Show(BirthDate > DateTime.Today
+                    ? "You can't be born in future! Please enter a valid birth date."
+                    : "Age could not be more than 135 years!", "Incorrect Date",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
 
+        private bool CanExecute()
+        {
+            return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName) && !string.IsNullOrEmpty(Email);
+        }
     
-    
-    // private void ProcessData(object obj)
-    // {
-    //     
-    // }
+        public BaseNavigationTypes ViewType
+        {
+            get { return BaseNavigationTypes.InputData; }
+        }
 
-    private bool CanExecute()
-    {
-        return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName) && !string.IsNullOrEmpty(Email);
-        // return true;
-    }
-    
-    public BaseNavigationTypes ViewType
-    {
-        get { return BaseNavigationTypes.InputData; }
-    }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

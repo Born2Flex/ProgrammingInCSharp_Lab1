@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:KMA.ProgrammingInCSharp.Views"
         xmlns:viewModels="clr-namespace:KMA.ProgrammingInCSharp.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="310" Width="350" SizeToContent="Height" Content="{Binding CurrentViewModel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        Title="Laboratory 2" Height="310" Width="350" SizeToContent="WidthAndHeight" Content="{Binding CurrentViewModel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
         <Window.Resources>
                 <DataTemplate DataType="{x:Type TypeName=viewModels:InputViewModel}">
                         <views:InputView></views:InputView>

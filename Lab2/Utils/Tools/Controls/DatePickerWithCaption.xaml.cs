@@ -2,44 +2,45 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace KMA.ProgrammingInCSharp.Utils.Tools.Controls;
-
-public partial class DatePickerWithCaption : UserControl
+namespace KMA.ProgrammingInCSharp.Utils.Tools.Controls
 {
-    public string Caption
+    public partial class DatePickerWithCaption : UserControl
     {
-        get
+        public string Caption
         {
-            return PickerCaption.Text;
+            get
+            {
+                return PickerCaption.Text;
+            }
+            set
+            {
+                PickerCaption.Text = value;
+            }
         }
-        set
-        {
-            PickerCaption.Text = value;
-        }
-    }
     
-    public DateTime PickedDate
-    {
-        get
+        public DateTime PickedDate
         {
-            return (DateTime)GetValue(DateProperty);
+            get
+            {
+                return (DateTime)GetValue(DateProperty);
+            }
+            set
+            {
+                SetValue(DateProperty, value);
+            }
         }
-        set
+    
+        public static readonly DependencyProperty DateProperty = DependencyProperty.Register
+        (
+            "PickedDate",
+            typeof(DateTime),
+            typeof(DatePickerWithCaption),
+            new PropertyMetadata(null)
+        );
+    
+        public DatePickerWithCaption()
         {
-            SetValue(DateProperty, value);
+            InitializeComponent();
         }
-    }
-    
-    public static readonly DependencyProperty DateProperty = DependencyProperty.Register
-    (
-        "PickedDate",
-        typeof(DateTime),
-        typeof(DatePickerWithCaption),
-        new PropertyMetadata(null)
-    );
-    
-    public DatePickerWithCaption()
-    {
-        InitializeComponent();
     }
 }
