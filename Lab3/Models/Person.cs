@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using KMA.ProgrammingInCSharp.Utils;
+using KMA.ProgrammingInCSharp.Utils.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Models
 {
@@ -17,6 +19,8 @@ namespace KMA.ProgrammingInCSharp.Models
         private readonly string _chineseSign;
         private readonly bool _isBirthday;
 
+        private const string EmailPattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        
         #endregion
 
         #region Properties
@@ -36,13 +40,37 @@ namespace KMA.ProgrammingInCSharp.Models
         public string Email
         {
             get { return _email; }
-            set { _email = value; }
+            set
+            {
+                if (IsValidEmail(value))
+                {
+                    _email = value;
+                }
+                else
+                {
+                    throw new InvalidEmailException($"Invalid email: {value}");
+                }
+            }
         }
 
         public DateTime BirthDate
         {
             get { return _birthDate; }
-            set { _birthDate = value; }
+            set
+            {
+                if (DateUtils.IsValidBirthdayDate(value))
+                {
+                    _birthDate = value;
+                }
+                else
+                {
+                    if (value > DateTime.Today)
+                    {
+                        throw new BirthDateInFutureException("You can't be born in future", value);
+                    }
+                    throw new BirthDateInPastException("Age should be less than 135 years", value);
+                }
+            }
         }
 
         public bool IsAdult
@@ -69,10 +97,10 @@ namespace KMA.ProgrammingInCSharp.Models
 
         public Person(string firstName, string lastName, string email, DateTime birthDate)
         {
-            _firstName = firstName;
-            _lastName = lastName;
-            _email = email;
-            _birthDate = birthDate;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            BirthDate = birthDate;
 
             _isAdult = DateUtils.YearsDiff(_birthDate, DateTime.Today) > 18;
             _sunSign = DateUtils.GetSunSign(_birthDate);
@@ -89,35 +117,10 @@ namespace KMA.ProgrammingInCSharp.Models
             this(firstName, lastName, string.Empty, birthDate)
         {
         }
-        
-        // Second variant of constructors
-        // Which one is better?
-        // public Person(string firstName, string lastName, string email, DateTime birthDate):
-        //     this(firstName, lastName, birthDate)
-        // {
-        //     _email = email;
-        // }
-        //
-        // public Person(string firstName, string lastName, string email) :
-        //     this(firstName, lastName)
-        // {
-        //     _email = email;
-        // }
-        //
-        // public Person(string firstName, string lastName, DateTime birthDate) :
-        //     this(firstName, lastName)
-        // {
-        //     _birthDate = birthDate;
-        //     _isAdult = DateUtils.YearsDiff(_birthDate, DateTime.Today) > 18;
-        //     _sunSign = DateUtils.GetSunSign(_birthDate);
-        //     _chineseSign = DateUtils.GetChineseZodiacSign(_birthDate);
-        //     _isBirthday = DateUtils.TodayIsBirthday(_birthDate);
-        // }
-        //
-        // public Person(string firstName, string lastName)
-        // {
-        //     _firstName = firstName;
-        //     _lastName = lastName;
-        // }
+
+        private bool IsValidEmail(string email)
+        {
+            return Regex.IsMatch(email, EmailPattern);
+        }
     }
 }

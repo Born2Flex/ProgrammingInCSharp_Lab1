@@ -21,7 +21,7 @@ namespace KMA.ProgrammingInCSharp.Utils
     
         public static bool IsValidBirthdayDate(DateTime date)
         {
-            return DateUtils.YearsDiff(date, DateTime.Today) <= MaxAge && date.CompareTo(DateTime.Now) < 0;
+            return YearsDiff(date, DateTime.Today) <= MaxAge && date.CompareTo(DateTime.Now) < 0;
         }
 
         public static string GetChineseZodiacSign(DateTime birthDate)

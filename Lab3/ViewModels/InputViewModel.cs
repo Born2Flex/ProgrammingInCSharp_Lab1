@@ -7,6 +7,7 @@ using KMA.ProgrammingInCSharp.Models;
 using KMA.ProgrammingInCSharp.Navigation;
 using KMA.ProgrammingInCSharp.services;
 using KMA.ProgrammingInCSharp.Utils;
+using KMA.ProgrammingInCSharp.Utils.Exceptions;
 using KMA.ProgrammingInCSharp.Utils.Tools;
 
 namespace KMA.ProgrammingInCSharp.ViewModels
@@ -99,7 +100,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     
         private async void ProceedInput()
         {
-            if (DateUtils.IsValidBirthdayDate(BirthDate))
+            try
             {
                 IsEnabled = false;
                 await Task.Run(() =>
@@ -110,12 +111,21 @@ namespace KMA.ProgrammingInCSharp.ViewModels
                         ShowBirthdayMessage();
                     }
                     _gotoResults.Invoke();
-                }); 
-                IsEnabled = true;
+                });
             }
-            else
+            catch (InvalidEmailException e)
             {
-                ShowInvalidDateMessage();
+                Console.WriteLine($"Email validation exception occured: {e.Message}");
+                ShowExceptionMessage(e.Message);
+            }
+            catch (Exception e) when (e is BirthDateInPastException or BirthDateInFutureException)
+            {
+                Console.WriteLine($"Date validation exception occured: {e.Message}.");
+                ShowExceptionMessage(e.Message);
+            }
+            finally
+            {
+                IsEnabled = true;
             }
         }
     
@@ -127,13 +137,9 @@ namespace KMA.ProgrammingInCSharp.ViewModels
                 MessageBoxImage.Information);
         }
 
-        private void ShowInvalidDateMessage()
+        private void ShowExceptionMessage(string message)
         {
-            MessageBox.Show(BirthDate > DateTime.Today
-                    ? "You can't be born in future! Please enter a valid birth date."
-                    : "Age could not be more than 135 years!", "Incorrect Date",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            MessageBox.Show(message,"Incorrect input",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
         private bool CanExecute()
