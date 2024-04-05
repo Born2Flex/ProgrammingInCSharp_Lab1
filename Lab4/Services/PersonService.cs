@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using KMA.ProgrammingInCSharp.Models;
 using KMA.ProgrammingInCSharp.Repositories;
 using KMA.ProgrammingInCSharp.Utils.Exceptions;
@@ -39,35 +38,35 @@ namespace KMA.ProgrammingInCSharp.services
             switch (selectedOption)
             {
                 case "First Name":
-                    return persons.Where(person => person.FirstName
-                        .Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                    return SearchByPredicate(person => person.FirstName.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
                 case "Last Name":
-                    return persons.Where(person => person.LastName
-                        .Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                    return SearchByPredicate(person => person.LastName.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
                 case "Email":
-                    return persons.Where(person => person.Email
-                        .Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                    return SearchByPredicate(person => person.Email.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
                 case "Birth Date":
                     if (DateTime.TryParse(searchValue, out DateTime birthDate))
-                        return persons.Where(person => person.BirthDate.Date == birthDate.Date).ToList();
+                        return SearchByPredicate(person => person.BirthDate.Date == birthDate.Date);
                     throw new InvalidSearchValueException("Invalid date format. Please enter date in format: dd-MM-yyyy");
                 case "Is Adult":
                     if (bool.TryParse(searchValue, out bool isAdult))
-                        return persons.Where(person => person.IsAdult == isAdult).ToList();
+                        return SearchByPredicate(person => person.IsAdult == isAdult);
                     throw new InvalidSearchValueException("Invalid bool format. Please enter true or false");
                 case "Sun Sign":
-                    return persons.Where(person => person.SunSign
-                        .Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                    return SearchByPredicate(person => person.SunSign.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
                 case "Chinese Sign":
-                    return persons.Where(person => person.ChineseSign
-                        .Contains(searchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                    return SearchByPredicate(person => person.ChineseSign.Contains(searchValue, StringComparison.OrdinalIgnoreCase));
                 case "Is Birthday":
                     if (bool.TryParse(searchValue, out bool isBirthday))
-                        return persons.Where(person => person.IsBirthday == isBirthday).ToList();
+                        return SearchByPredicate(person => person.IsBirthday == isBirthday);
                     throw new InvalidSearchValueException("Invalid bool format. Please enter true or false");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        private List<Person> SearchByPredicate(Func<Person, bool> predicate)
+        {
+            return Repository.GetAllPersons().Where(predicate).ToList();
         }
     }
 }

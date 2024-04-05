@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using KMA.ProgrammingInCSharp.Managers;
 using KMA.ProgrammingInCSharp.Models;
@@ -42,6 +43,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         
         private ObservableCollection<Person> _persons;
         private static readonly List<string> Options = new() { "First Name", "Last Name", "Email", "Birth Date", "Is Adult", "Sun Sign", "Chinese Sign", "Is Birthday"};
+        private bool _isEnabled = true;
         
         #endregion
 
@@ -162,6 +164,16 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         {
             get { return Options; }
         }
+        
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
         #endregion
         
         public TableViewModel(Action gotoInput)
@@ -190,14 +202,20 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             _gotoInput.Invoke();
         }
         
-        private void DeletePerson()
+        private async void DeletePerson()
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want\nto delete this person?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            IsEnabled = false;
+            await Task.Run(() =>
             {
-                new PersonService().DeletePerson(SelectedPerson);
-            }
-            SelectedPerson = null;
+                MessageBoxResult result = MessageBox.Show("Are you sure you want\nto delete this person?", 
+                    "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    new PersonService().DeletePerson(SelectedPerson);
+                }
+                SelectedPerson = null;
+            });
+            IsEnabled = true;
         }
 
         #region Sorting
@@ -243,23 +261,28 @@ namespace KMA.ProgrammingInCSharp.ViewModels
 
         #endregion
         
-        private void SearchPersons()
+        private async void SearchPersons()
         {
             if (SelectedOption == null || string.IsNullOrWhiteSpace(SearchValue))
             {
                 MessageBox.Show("Please select search option and enter search value", "Search", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            try
+            IsEnabled = false;
+            await Task.Run(() =>
             {
-                Persons = new ObservableCollection<Person>(
-                    new PersonService().SearchPersons(SelectedOption, SearchValue));
-            }
-            catch (InvalidSearchValueException e)
-            {
-                Console.WriteLine($"An error occured while searching. {e.Message}");
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+                try
+                {
+                    Persons = new ObservableCollection<Person>(new PersonService()
+                        .SearchPersons(SelectedOption, SearchValue));
+                }
+                catch (InvalidSearchValueException e)
+                {
+                    Console.WriteLine($"An error occured while searching. {e.Message}");
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            });
+            IsEnabled = true;
         }
         
         private void Clear()

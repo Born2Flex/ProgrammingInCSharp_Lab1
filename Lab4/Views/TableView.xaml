@@ -5,9 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:KMA.ProgrammingInCSharp.Views"
              xmlns:controls="clr-namespace:KMA.ProgrammingInCSharp.Utils.Tools.Controls"
-             mc:Ignorable="d"
-              MinWidth="250">
-    <!-- d:DesignHeight="300" d:DesignWidth="200" -->
+             mc:Ignorable="d" MinWidth="250" IsEnabled="{Binding IsEnabled}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,7 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5, 3, 10, 10">
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5, 3, 10, 0">
         <ComboBox Height="30" Width="105" VerticalContentAlignment="Center" FontSize="13" Margin="5,5,0,5" ItemsSource="{Binding SearchOptions}" SelectedItem="{Binding SelectedOption}"/>
         <TextBox Height="30" Width="250" VerticalContentAlignment="Center" FontSize="13" Margin="0,5,0,5" Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}" />
         <Button Width="80" Height="30" FontSize="13"  Content="Search" Command="{Binding SearchCommand}" Margin="0,5,5,5" />
@@ -24,9 +22,9 @@
     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5, 3, 10, 10" HorizontalAlignment="Right">
         <Button HorizontalAlignment="Right" Width="80" Height="30" FontSize="13"  Content="Clear" Command="{Binding ClearCommand}" Margin="0,5,3,5" />
     </StackPanel>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Label Content="Sorting" FontSize="15"></Label>
-        </StackPanel>
+    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0, 0, 0, 10">
+        <Label Content="Sorting" FontSize="15"></Label>
+    </StackPanel>
         
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 5">
         <Button Content="First Name" Command="{Binding SortByFirstNameCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
@@ -40,12 +38,9 @@
     </StackPanel>
         
     <DataGrid Grid.Row="3"  ItemsSource="{Binding Persons, Mode=OneWay}" AutoGenerateColumns="False" 
-              ScrollViewer.CanContentScroll="True" 
-              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
               ScrollViewer.HorizontalScrollBarVisibility="Auto"
-              MaxHeight="300"
-              FontSize="14"
-              SelectedItem="{Binding SelectedPerson}">
+              IsReadOnly="True" MaxHeight="300" FontSize="14" SelectedItem="{Binding SelectedPerson}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
             <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"></DataGridTextColumn>

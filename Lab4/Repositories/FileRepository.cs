@@ -6,18 +6,22 @@ using KMA.ProgrammingInCSharp.Models;
 
 namespace KMA.ProgrammingInCSharp.Repositories
 {
-    public class FileRepository
+    internal class FileRepository
     {
+        #region Fields
+        
         private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lab4Shlapak");
         private static readonly string FilePath = Path.Combine(BaseFolder, "data.json");
         private static readonly int DefaultPersonsCount = 50;
-        private List<Person> _users;
+        private List<Person> _persons;
         
         private static FileRepository? _instance;
         private static readonly object Locker = new object();
         
         public event Action? DataChanged;
         
+        #endregion
+
         public static FileRepository Instance
         {
             get
@@ -35,72 +39,73 @@ namespace KMA.ProgrammingInCSharp.Repositories
 
         private FileRepository()
         {
-            if (!File.Exists(FilePath))
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (File.Exists(FilePath))
+            {
+                using StreamReader sr = new StreamReader(FilePath);
+                string json = sr.ReadToEnd();
+                _persons = JsonSerializer.Deserialize<List<Person>>(json) ?? new List<Person>();
+            }
+            else
             {
                 if (!Directory.Exists(BaseFolder))
                 {
                     Directory.CreateDirectory(BaseFolder);
                 }
                 File.Create(FilePath).Close();
-                GenerateDefaultData();
-            }
-            else
-            {
-                LoadData();
+                _persons = GenerateDefaultData();
+                SaveDataAsync();
             }
         }
 
-        private void LoadData()
+        private async void SaveDataAsync()
         {
-            using StreamReader sr = new StreamReader(FilePath);
-            string json = sr.ReadToEnd();
-            _users = JsonSerializer.Deserialize<List<Person>>(json);
-        }
-
-        private void SaveData()
-        {
-            using (StreamWriter sw = new StreamWriter(FilePath))
+            await using (StreamWriter sw = new StreamWriter(FilePath))
             {
-                string json = JsonSerializer.Serialize(_users);
-                sw.Write(json);
+                string json = JsonSerializer.Serialize(_persons);
+                await sw.WriteAsync(json);
             }
             DataChanged?.Invoke();
         }
         
         public List<Person> GetAllPersons()
         {
-            return _users;
+            return _persons;
         }
         
         public void AddPerson(Person person)
         {
-            _users.Add(person);
-            SaveData();
+            _persons.Add(person);
+            SaveDataAsync();
         }
         
         public void DeletePerson(Person person)
         {
-            _users.Remove(person);
-            SaveData();
+            _persons.Remove(person);
+            SaveDataAsync();
         }
         
         public void EditPerson(Person oldPerson, Person newPerson)
         {
-            int index = _users.IndexOf(oldPerson);
-            _users[index] = newPerson;
-            SaveData();
+            int index = _persons.IndexOf(oldPerson);
+            _persons[index] = newPerson;
+            SaveDataAsync();
         }
         
-        private void GenerateDefaultData()
+        private List<Person> GenerateDefaultData()
         {
-            _users = new List<Person>();
+            List<Person> data = new List<Person>();
             Random random = new Random();
             for (int i = 0; i < DefaultPersonsCount; ++i)
             {
-                _users.Add(new Person("Name" + i, "Surname" + i, "email" + i + "@gmail.com",
+                data.Add(new Person("Name" + i, "Surname" + i, "email" + i + "@gmail.com",
                     new DateTime(random.Next(1980, 2024), random.Next(1, 12), random.Next(1, 28))));
             }
-            SaveData();
+            return data;
         }
     }
 }
