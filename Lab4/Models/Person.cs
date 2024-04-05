@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using KMA.ProgrammingInCSharp.Utils;
 using KMA.ProgrammingInCSharp.Utils.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Models
 {
-    class Person
+    public class Person
     {
         #region Fields
 
@@ -105,6 +106,20 @@ namespace KMA.ProgrammingInCSharp.Models
             _isAdult = DateUtils.YearsDiff(_birthDate, DateTime.Today) > 18;
             _sunSign = DateUtils.GetSunSign(_birthDate);
             _chineseSign = DateUtils.GetChineseZodiacSign(_birthDate);
+            _isBirthday = DateUtils.TodayIsBirthday(_birthDate);
+        }
+        
+        [JsonConstructor]
+        public Person(string firstName, string lastName, string email, DateTime birthDate, string sunSign, string chineseSign)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            BirthDate = birthDate;
+            _sunSign = sunSign;
+            _chineseSign = chineseSign;
+            
+            _isAdult = DateUtils.YearsDiff(_birthDate, DateTime.Today) > 18;
             _isBirthday = DateUtils.TodayIsBirthday(_birthDate);
         }
 

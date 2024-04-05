@@ -8,7 +8,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     {
         public MainWindowViewModel()
         {
-            Navigate(BaseNavigationTypes.InputData);
+            Navigate(BaseNavigationTypes.DataTable);
         }
         
         protected override INavigatable<BaseNavigationTypes> CreateViewModel(BaseNavigationTypes type)
@@ -16,9 +16,9 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             switch (type)
             {
                 case BaseNavigationTypes.InputData:
-                    return new InputViewModel(()=>Navigate(BaseNavigationTypes.ShowResult));
-                case BaseNavigationTypes.ShowResult:
-                    return new ResultViewModel(() => Navigate(BaseNavigationTypes.InputData));
+                    return new InputViewModel(()=>Navigate(BaseNavigationTypes.DataTable));
+                case BaseNavigationTypes.DataTable:
+                    return new TableViewModel(() => Navigate(BaseNavigationTypes.InputData));
                 default:
                     return null;
             }

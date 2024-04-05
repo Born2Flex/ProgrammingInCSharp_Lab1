@@ -3,6 +3,6 @@
     public enum BaseNavigationTypes
     {
         InputData,
-        ShowResult
+        DataTable
     }
 }

@@ -4,9 +4,9 @@ using KMA.ProgrammingInCSharp.ViewModels;
 
 namespace KMA.ProgrammingInCSharp.Views
 {
-    public partial class ResultView : UserControl
+    public partial class TableView : UserControl
     {
-        public ResultView()
+        public TableView()
         {
             InitializeComponent();
         }

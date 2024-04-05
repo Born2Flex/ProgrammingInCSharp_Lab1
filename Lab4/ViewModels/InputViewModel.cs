@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using KMA.ProgrammingInCSharp.Managers;
 using KMA.ProgrammingInCSharp.Models;
 using KMA.ProgrammingInCSharp.Navigation;
 using KMA.ProgrammingInCSharp.services;
@@ -18,7 +19,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     
         private RelayCommand<object> _exitCommand;
         private RelayCommand<object> _proceedCommand;
-        private Action _gotoResults;
+        private Action _gotoTable;
     
         private string _firstName;
         private string _lastName;
@@ -63,7 +64,10 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     
         public DateTime BirthDate
         {
-            get { return _birthDate; }
+            get
+            {
+                return _birthDate;
+            }
             set
             {
                 _birthDate = value;
@@ -81,9 +85,9 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             }
         }
     
-        public RelayCommand<object> ExitCommand
+        public RelayCommand<object> BackCommand
         {
-            get { return _exitCommand ??= new RelayCommand<object>(_ => Environment.Exit(0)); }
+            get { return new RelayCommand<object>(_ => _gotoTable.Invoke()); }
         }
     
         public RelayCommand<object> ProceedCommand
@@ -93,9 +97,11 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     
         #endregion
     
-        public InputViewModel(Action gotoResults)
+        public InputViewModel(Action gotoTable)
         {
-            _gotoResults = gotoResults;
+            _gotoTable = gotoTable;
+            PersonManager.CurrentPersonChanged += UpdatePersonData;
+            UpdatePersonData();
         }
     
         private async void ProceedInput()
@@ -105,12 +111,21 @@ namespace KMA.ProgrammingInCSharp.ViewModels
                 IsEnabled = false;
                 await Task.Run(() =>
                 {
-                    PersonService.Person = new Person(FirstName, LastName, Email, BirthDate);
+                    Person person = new Person(FirstName, LastName, Email, BirthDate);
+                    PersonService personService = new PersonService();
+                    if (PersonManager.CurrentPerson == null)
+                    {
+                        personService.AddPerson(person);
+                    }
+                    else
+                    {
+                        personService.EditPerson(PersonManager.CurrentPerson, person);
+                    }
                     if (DateUtils.TodayIsBirthday(BirthDate))
                     {
                         ShowBirthdayMessage();
                     }
-                    _gotoResults.Invoke();
+                    _gotoTable.Invoke();
                 });
             }
             catch (InvalidEmailException e)
@@ -128,7 +143,30 @@ namespace KMA.ProgrammingInCSharp.ViewModels
                 IsEnabled = true;
             }
         }
-    
+
+        private void UpdatePersonData()
+        {
+            if (PersonManager.CurrentPerson != null)
+            {
+                FirstName = PersonManager.CurrentPerson.FirstName;
+                LastName = PersonManager.CurrentPerson.LastName;
+                Email = PersonManager.CurrentPerson.Email;
+                BirthDate = PersonManager.CurrentPerson.BirthDate;
+            }
+            else
+            {
+                ClearData();
+            }
+        }
+
+        private void ClearData()
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Email = string.Empty;
+            BirthDate = DateTime.Today;
+        }
+
         private void ShowBirthdayMessage()
         {
             MessageBox.Show("Happy Birthday! 🎉🎉🎉",

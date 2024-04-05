@@ -5,6 +5,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <RootNamespace>KMA.ProgrammingInCSharp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,7 +29,7 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\ResultView.xaml">
+      <Page Update="Views\TableView.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
