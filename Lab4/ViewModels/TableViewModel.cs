@@ -47,8 +47,8 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         
         #endregion
 
-        #region Properties
-        
+        #region CommandsProperties
+
         public RelayCommand<object> ExitCommand
         {
             get { return _exitCommand ??= new RelayCommand<object>(_ => Environment.Exit(0)); }
@@ -116,8 +116,12 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         
         public RelayCommand<object> ClearCommand
         {
-            get { return _clearCommand ??= new RelayCommand<object>(_ => Clear()); }
+            get { return _clearCommand ??= new RelayCommand<object>(_ => ClearView()); }
         }
+
+        #endregion
+
+        #region Properties
         
         public Person? SelectedPerson
         {
@@ -265,7 +269,8 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         {
             if (SelectedOption == null || string.IsNullOrWhiteSpace(SearchValue))
             {
-                MessageBox.Show("Please select search option and enter search value", "Search", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please select search option and enter search value", "Search", 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             IsEnabled = false;
@@ -273,8 +278,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             {
                 try
                 {
-                    Persons = new ObservableCollection<Person>(new PersonService()
-                        .SearchPersons(SelectedOption, SearchValue));
+                    Persons = new ObservableCollection<Person>(new PersonService().SearchPersons(SelectedOption, SearchValue));
                 }
                 catch (InvalidSearchValueException e)
                 {
@@ -285,7 +289,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             IsEnabled = true;
         }
         
-        private void Clear()
+        private void ClearView()
         {
             UpdatePersons();
             SelectedOption = null;

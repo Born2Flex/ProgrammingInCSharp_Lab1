@@ -13,7 +13,7 @@ using KMA.ProgrammingInCSharp.Utils.Tools;
 
 namespace KMA.ProgrammingInCSharp.ViewModels
 {
-    class InputViewModel : INavigatable<BaseNavigationTypes>, INotifyPropertyChanged
+    internal class InputViewModel : INavigatable<BaseNavigationTypes>, INotifyPropertyChanged
     {
         #region Fields
     

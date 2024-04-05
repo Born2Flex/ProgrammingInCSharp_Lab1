@@ -33,8 +33,6 @@ namespace KMA.ProgrammingInCSharp.services
 
         public List<Person> SearchPersons(string selectedOption, string searchValue)
         {
-            List<Person> persons = Repository.GetAllPersons();
-
             switch (selectedOption)
             {
                 case "First Name":

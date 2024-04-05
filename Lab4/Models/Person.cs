@@ -6,7 +6,7 @@ using KMA.ProgrammingInCSharp.Utils.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Models
 {
-    public class Person
+    internal class Person
     {
         #region Fields
 
@@ -95,6 +95,8 @@ namespace KMA.ProgrammingInCSharp.Models
         }
 
         #endregion
+        
+        #region Constructors
 
         public Person(string firstName, string lastName, string email, DateTime birthDate)
         {
@@ -132,6 +134,8 @@ namespace KMA.ProgrammingInCSharp.Models
             this(firstName, lastName, string.Empty, birthDate)
         {
         }
+        
+        #endregion
 
         private bool IsValidEmail(string email)
         {
