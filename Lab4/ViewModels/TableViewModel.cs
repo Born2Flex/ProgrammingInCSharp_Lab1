@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using KMA.ProgrammingInCSharp.Managers;
 using KMA.ProgrammingInCSharp.Models;
@@ -20,6 +21,15 @@ namespace KMA.ProgrammingInCSharp.ViewModels
         private RelayCommand<object> _addCommand;
         private RelayCommand<object> _editCommand;
         private RelayCommand<object> _deleteCommand;
+        
+        private RelayCommand<object> _sortByFirstNameCommand;
+        private RelayCommand<object> _sortByLastNameCommand;
+        private RelayCommand<object> _sortByEmailCommand;
+        private RelayCommand<object> _sortByBirthDateCommand;
+        private RelayCommand<object> _sortByIsAdultCommand;
+        private RelayCommand<object> _sortBySunSignCommand;
+        private RelayCommand<object> _sortByChineseSignCommand;
+        private RelayCommand<object> _sortByIsBirthdayCommand;
 
         private RelayCommand<object> _searchCommand;
         private RelayCommand<object> _clearCommand;
@@ -57,9 +67,49 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             get { return _deleteCommand ??= new RelayCommand<object>(_ => DeletePerson(), _ => SelectedPerson != null); }
         }
         
+        public RelayCommand<object> SortByFirstNameCommand
+        {
+            get { return _sortByFirstNameCommand ??= new RelayCommand<object>(_ => SortByFirstName()); }
+        }
+        
+        public RelayCommand<object> SortByLastNameCommand
+        {
+            get { return _sortByLastNameCommand ??= new RelayCommand<object>(_ => SortByLastName()); }
+        }
+        
+        public RelayCommand<object> SortByEmailCommand
+        {
+            get { return _sortByEmailCommand ??= new RelayCommand<object>(_ => SortByEmail()); }
+        }
+        
+        public RelayCommand<object> SortByBirthDateCommand
+        {
+            get { return _sortByBirthDateCommand ??= new RelayCommand<object>(_ => SortByBirthDate()); }
+        }
+        
+        public RelayCommand<object> SortByIsAdultCommand
+        {
+            get { return _sortByIsAdultCommand ??= new RelayCommand<object>(_ => SortByIsAdult()); }
+        }
+        
+        public RelayCommand<object> SortBySunSignCommand
+        {
+            get { return _sortBySunSignCommand ??= new RelayCommand<object>(_ => SortBySunSign()); }
+        }
+        
+        public RelayCommand<object> SortByChineseSignCommand
+        {
+            get { return _sortByChineseSignCommand ??= new RelayCommand<object>(_ => SortByChineseSign()); }
+        }
+        
+        public RelayCommand<object> SortByIsBirthdayCommand
+        {
+            get { return _sortByIsBirthdayCommand ??= new RelayCommand<object>(_ => SortByIsBirthday()); }
+        }
+        
         public RelayCommand<object> SearchCommand
         {
-            get { return _searchCommand ??= new RelayCommand<object>(_ => Search()); }
+            get { return _searchCommand ??= new RelayCommand<object>(_ => SearchPersons()); }
         }
         
         public RelayCommand<object> ClearCommand
@@ -149,8 +199,51 @@ namespace KMA.ProgrammingInCSharp.ViewModels
             }
             SelectedPerson = null;
         }
+
+        #region Sorting
+        private void SortByFirstName()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.FirstName));
+        }
         
-        private void Search()
+        private void SortByLastName()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.LastName));
+        }
+
+        private void SortByEmail()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.Email));
+        }
+
+        private void SortByBirthDate()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.BirthDate));
+        }
+
+        private void SortByIsAdult()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.IsAdult));
+        }
+
+        private void SortBySunSign()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.SunSign));
+        }
+
+        private void SortByChineseSign()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.ChineseSign));
+        }
+
+        private void SortByIsBirthday()
+        {
+            Persons = new ObservableCollection<Person>(Persons.OrderBy(p => p.IsBirthday));
+        }
+
+        #endregion
+        
+        private void SearchPersons()
         {
             if (SelectedOption == null || string.IsNullOrWhiteSpace(SearchValue))
             {

@@ -13,6 +13,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5, 3, 10, 10">
         <ComboBox Height="30" Width="105" VerticalContentAlignment="Center" FontSize="13" Margin="5,5,0,5" ItemsSource="{Binding SearchOptions}" SelectedItem="{Binding SelectedOption}"/>
@@ -20,14 +22,29 @@
         <Button Width="80" Height="30" FontSize="13"  Content="Search" Command="{Binding SearchCommand}" Margin="0,5,5,5" />
     </StackPanel>
     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5, 3, 10, 10" HorizontalAlignment="Right">
-        <Button HorizontalAlignment="Right" Width="80" Height="30" FontSize="13"  Content="Clear" Command="{Binding ClearCommand}" Margin="0,5,5,5" />
+        <Button HorizontalAlignment="Right" Width="80" Height="30" FontSize="13"  Content="Clear" Command="{Binding ClearCommand}" Margin="0,5,3,5" />
     </StackPanel>
-    <DataGrid Grid.Row="1"  ItemsSource="{Binding Persons, Mode=OneWay}" AutoGenerateColumns="False" 
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <Label Content="Sorting" FontSize="15"></Label>
+        </StackPanel>
+        
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 5">
+        <Button Content="First Name" Command="{Binding SortByFirstNameCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Last Name" Command="{Binding SortByLastNameCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Email" Command="{Binding SortByEmailCommand}" Margin="1" Width="90" Height="30" FontSize="12" />
+        <Button Content="BirthDate" Command="{Binding SortByBirthDateCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Is Adult" Command="{Binding SortByIsAdultCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Sun Sign" Command="{Binding SortBySunSignCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Chinese Sign" Command="{Binding SortByChineseSignCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+        <Button Content="Is Birthday" Command="{Binding SortByIsBirthdayCommand}" Margin="1" Width="80" Height="30" FontSize="12" />
+    </StackPanel>
+        
+    <DataGrid Grid.Row="3"  ItemsSource="{Binding Persons, Mode=OneWay}" AutoGenerateColumns="False" 
               ScrollViewer.CanContentScroll="True" 
               ScrollViewer.VerticalScrollBarVisibility="Auto"
               ScrollViewer.HorizontalScrollBarVisibility="Auto"
               MaxHeight="300"
-              FontSize="13"
+              FontSize="14"
               SelectedItem="{Binding SelectedPerson}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
@@ -40,7 +57,7 @@
             <DataGridTextColumn Header="Is Birthday" Binding="{Binding IsBirthday}"></DataGridTextColumn>
         </DataGrid.Columns>
     </DataGrid>
-    <StackPanel Grid.Row="2" Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+    <StackPanel Grid.Row="4" Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
         <Button Content="Exit" Command="{Binding ExitCommand}" Margin="5" Width="80" Height="30" FontSize="13" />
         <Button Content="Add" Command="{Binding AddCommand}" Margin="5" Width="80" Height="30" FontSize="13" />
         <Button Content="Edit" Command="{Binding EditCommand}" Margin="5" Width="80" Height="30" FontSize="13" />

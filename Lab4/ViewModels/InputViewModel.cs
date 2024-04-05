@@ -17,9 +17,8 @@ namespace KMA.ProgrammingInCSharp.ViewModels
     {
         #region Fields
     
-        private RelayCommand<object> _exitCommand;
         private RelayCommand<object> _proceedCommand;
-        private Action _gotoTable;
+        private readonly Action _gotoTable;
     
         private string _firstName;
         private string _lastName;
@@ -125,6 +124,7 @@ namespace KMA.ProgrammingInCSharp.ViewModels
                     {
                         ShowBirthdayMessage();
                     }
+                    ClearData();
                     _gotoTable.Invoke();
                 });
             }
